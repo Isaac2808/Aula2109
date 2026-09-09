@@ -14,11 +14,14 @@ Este sistema permite:
 - autenticação em duas etapas com código enviado por e-mail
 - expiração do código MFA após 5 minutos
 - uso único dos códigos MFA
-- painel autenticado após login
+- painel autenticado após login com roteamento automático por grupo
+- acesso diferenciado por perfil de usuário (7 grupos: administrador, diretoria, gerência geral, gerência, supervisão, atendente, caixa)
 - logout e administração padrão do Django
+- gerenciamento de usuários de teste para desenvolvimento
 
 ## Funcionalidades implementadas
 
+### Autenticação e Segurança
 - Cadastro com nome de usuário informado pelo usuário
 - Armazenamento do nome visual do usuário em `first_name`
 - Usuário interno do Django com `username` gerado automaticamente para evitar duplicidade
@@ -31,6 +34,20 @@ Este sistema permite:
 - Geração e envio de código MFA após a senha ser validada
 - Invalidação de códigos MFA anteriores quando um novo código é gerado
 - Conclusão do login somente após a confirmação do código MFA
+
+### Autorização e Controle de Acesso
+- Sistema de grupos para diferentes perfis de usuário
+- 7 grupos de acesso: `administradores`, `diretoria`, `gerencia_geral`, `gerencia`, `supervisao`, `atendente`, `caixa`
+- Painel de roteamento automático que direciona usuários para sua área específica
+- Views protegidas por grupo com validação de permissões
+- Retorno de erro 403 (Forbidden) para acessos não autorizados
+
+### Gerenciamento de Dados (Modo Desenvolvimento)
+- Comando `criar_usuarios_dev` para criar usuários de teste para cada grupo
+- Comando `deletar_usuarios_dev` para remover usuários de teste
+  - `--dev`: deleta apenas usuários de desenvolvimento (padrão)
+  - `--username <nome>`: deleta um usuário específico
+  - `--all`: deleta todos os usuários do banco
 
 ## Fluxo de cadastro e ativação
 
@@ -55,6 +72,47 @@ Este sistema permite:
 5. O ID do usuário fica temporariamente armazenado na sessão.
 6. O código é aceito somente se não tiver sido usado e ainda estiver dentro do prazo de 5 minutos.
 7. Após a validação, o código é marcado como usado, a sessão é autenticada e o usuário é redirecionado para o painel.
+
+## Fluxo de acesso ao painel por grupo
+
+1. Após login bem-sucedido, o usuário é redirecionado para `/painel/`.
+2. O sistema verifica a qual grupo o usuário pertence.
+3. O usuário é direcionado automaticamente para o painel específico do seu perfil.
+4. Tentativas de acessar painéis de outros grupos resultam em erro 403 (Forbidden).
+
+## Desenvolvimento e Testes
+
+### Criar usuários de teste
+
+Execute o comando para criar um usuário para cada grupo:
+
+```bash
+python manage.py criar_usuarios_dev
+```
+
+Usuários criados:
+- Username: `user_administradores` | Senha: `dev12345`
+- Username: `user_diretoria` | Senha: `dev12345`
+- Username: `user_gerencia_geral` | Senha: `dev12345`
+- Username: `user_gerencia` | Senha: `dev12345`
+- Username: `user_supervisao` | Senha: `dev12345`
+- Username: `user_atendente` | Senha: `dev12345`
+- Username: `user_caixa` | Senha: `dev12345`
+
+### Remover usuários de teste
+
+Para remover os usuários de desenvolvimento:
+
+```bash
+# Remove apenas usuários dev
+python manage.py deletar_usuarios_dev
+
+# Remove um usuário específico
+python manage.py deletar_usuarios_dev --username user_administradores
+
+# Remove todos os usuários
+python manage.py deletar_usuarios_dev --all
+```
 
 ## Estrutura do projeto
 
