@@ -1,19 +1,178 @@
-<!-- Segunda etapa: confirma que o usuário também possui acesso ao e-mail. -->
-<h2>Validação 2FA - Etapa 2</h2>
-<p>Um código de 6 dígitos foi enviado para o seu e-mail. Digite-o abaixo:</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<!-- Exibe mensagens de código inválido ou expirado. -->
-{% if messages %}
-  {% for message in messages %}
-    <p style="color: red;">{{ message }}</p>
-  {% endfor %}
-{% endif %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- O código é enviado à view MFA para validação e uso único. -->
-<form method="post">
-  {% csrf_token %}
-  <label for="code">Código de 6 dígitos:</label>
-  <input type="text" name="code" maxlength="6" required placeholder="000000">
-  <br>
-  <button type="submit">Validar e Entrar</button>
-</form>
+    <title>CosturaFina | Verificação</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:linear-gradient(
+                135deg,
+                #fff8f8,
+                #fdeeee,
+                #f9e4e8
+            );
+        }
+
+        .container{
+            width:100%;
+            max-width:450px;
+
+            background:#fff;
+
+            padding:40px;
+
+            border-radius:25px;
+
+            box-shadow:0 15px 40px rgba(0,0,0,0.10);
+
+            text-align:center;
+        }
+
+        .logo{
+            font-size:50px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            color:#d48b9b;
+            margin-bottom:10px;
+        }
+
+        .subtitulo{
+            color:#7a6a6a;
+            margin-bottom:30px;
+            line-height:1.6;
+        }
+
+        .mensagem{
+            background:#ffe7eb;
+            color:#b35869;
+            padding:12px;
+            border-radius:10px;
+            margin-bottom:15px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:10px;
+            color:#6d5a5a;
+            font-weight:bold;
+        }
+
+        input{
+            width:100%;
+            padding:15px;
+
+            border:1px solid #ecc6cf;
+            border-radius:12px;
+
+            font-size:20px;
+            text-align:center;
+            letter-spacing:5px;
+
+            margin-bottom:20px;
+        }
+
+        input:focus{
+            outline:none;
+            border-color:#d48b9b;
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+
+            border:none;
+            border-radius:12px;
+
+            background:#e6a4b4;
+
+            color:white;
+
+            font-size:15px;
+            font-weight:bold;
+
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        button:hover{
+            background:#d48b9b;
+        }
+
+        .footer{
+            margin-top:20px;
+            color:#999;
+            font-size:13px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">🌸</div>
+
+        <h1>CosturaFina</h1>
+
+        <p class="subtitulo">
+            Um código de 6 dígitos foi enviado para seu e-mail.
+            Digite-o abaixo para concluir o acesso.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mensagem">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Código de Verificação</label>
+
+            <input
+                type="text"
+                name="code"
+                maxlength="6"
+                placeholder="000000"
+                required
+            >
+
+            <button type="submit">
+                Validar e Entrar
+            </button>
+
+        </form>
+
+        <div class="footer">
+            © 2026 CosturaFina
+        </div>
+
+    </div>
+
+</body>
+
+</html>
