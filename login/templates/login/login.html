@@ -65,7 +65,6 @@
             );
 
             color:white;
-
             padding:40px;
         }
 
@@ -90,9 +89,7 @@
             color:#d48b9b;
 
             text-decoration:none;
-
             padding:15px;
-
             border-radius:12px;
 
             text-align:center;
@@ -148,12 +145,9 @@
         .seguranca{
             background:#fff2f5;
             border-left:5px solid #d48b9b;
-
             padding:15px;
             border-radius:10px;
-
             margin-bottom:20px;
-
             color:#666;
         }
 
@@ -177,7 +171,6 @@
             width:100%;
             padding:14px;
             margin-bottom:18px;
-
             border:1px solid #ebc5ce;
             border-radius:12px;
         }
@@ -189,23 +182,14 @@
 
         button{
             width:100%;
-
             padding:15px;
-
             border:none;
-
             border-radius:12px;
-
             background:#d48b9b;
-
             color:white;
-
             font-size:16px;
             font-weight:bold;
-
             cursor:pointer;
-
-            transition:.3s;
         }
 
         button:hover{
@@ -219,8 +203,8 @@
 
         .cadastro-link a{
             color:#d48b9b;
-            font-weight:bold;
             text-decoration:none;
+            font-weight:bold;
         }
 
         footer{
@@ -253,7 +237,6 @@
                 flex-direction:column;
                 gap:15px;
             }
-
         }
 
     </style>
@@ -269,27 +252,9 @@
     </div>
 
     <div class="menu-topo">
-
-        <a href="{% url 'home' %}" class="logo">
-            <i class="font-family"></i>
-            
-            Home
-
-        </a>
-    
-        <a href="{% url 'cadastro' %}">
-            <i class="font-family"></i>
-            
-            Cadastro
-
-        </a>
-    
-        <a href="{% url 'login' %}">
-            <i class="font-family"></i>
-            
-            Login
-
-        </a>
+        {% url 'home' %}Home</a>
+        {% url 'cadastro' %}Cadastro</a>
+        {% url 'login' %}Login</a>
     </div>
 
 </header>
@@ -301,32 +266,24 @@
         <h1>🌸 Ponto de Flor</h1>
 
         <p>
-            Acesse sua conta para acompanhar
-            pedidos, encomendas e informações
-            da sua área.
+            Acesse sua conta para acompanhar pedidos,
+            encomendas e informações da sua área.
         </p>
 
         <div class="menu-lateral">
 
-            <a href="{% url 'home' %}" class="logo">
-                <i class="font-family"></i>
-                Home
-    
+            {% url 'home' %}
+                🏠 Home
             </a>
-        
-            <a href="{% url 'cadastro' %}">
-                <i class="font-family"></i>
-                
-                Cadastro
-    
+
+            {% url 'cadastro' %}
+                📝 Cadastro
             </a>
-        
-            <a href="{% url 'login' %}">
-                <i class="font-family"></i>
-                
-                Login
-    
+
+            {% url 'login' %}
+                🔑 Login
             </a>
+
         </div>
 
     </div>
@@ -348,20 +305,44 @@
             </div>
 
             <div class="seguranca">
-                ✅ Este sistema utiliza autenticação em dois fatores (2FA).
+                Faça seu login para acessar o sistema.
             </div>
 
             {% if messages %}
-                {% for message in messages %}
-                    <div class="mensagem">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
-            {% url 'login' %}
-
-                {% csrf_token %}
+            {% for message in messages %}
+                <div class="mensagem">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% url 'login' %}
+        
+            {% csrf_token %}
+        
+            <label>E-mail</label>
+        
+            <input
+                type="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+        
+            <label>Senha</label>
+        
+            <input
+                type="password"
+                name="senha"
+                placeholder="Digite sua senha"
+                required
+            >
+        
+            <button type="submit">
+                Entrar
+            </button>
+        
+        </form>
 
                 <label>E-mail</label>
 
@@ -391,8 +372,7 @@
 
                 Não possui uma conta?
 
-            <a href="{% url 'cadastro' %}">
-                    <i class="font-family"></i>
+                {% url 'cadastro' %}
                     Criar Conta
                 </a>
 

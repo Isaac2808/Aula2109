@@ -337,18 +337,22 @@
                 <h2>Criar Conta</h2>
 
             </div>
-
+            
             {% if messages %}
+
+            <div class="messages">
+
                 {% for message in messages %}
-                    <div class="mensagem">
+
+                    <div class="message">
                         {{ message }}
                     </div>
+
                 {% endfor %}
-            {% endif %}
 
-            {% url 'cadastro' %}
+            </div>
 
-                {% csrf_token %}
+        {% endif %}
 
                 <label>Nome Completo</label>
 
